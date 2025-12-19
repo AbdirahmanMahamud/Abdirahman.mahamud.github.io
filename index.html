@@ -28,14 +28,16 @@
 </head>
 <body class="p-6 md:p-12 max-w-6xl mx-auto">
 
-    <header class="flex justify-between items-center mb-12">
+    <header class="flex flex-col gap-4 mb-12 relative">
+        <div class="flex justify-between items-start">
+            <span class="font-bold uppercase text-sm tracking-widest">DREW COFFMAN</span>
+            <div class="w-8 h-8 border border-[#2d5a27] flex items-center justify-center">✳︎</div>
+        </div>
         <nav class="flex gap-8 uppercase text-sm font-bold tracking-widest">
-            <span class="font-bold">DREW COFFMAN</span>
             <a href="#" class="hover:underline">ABOUT</a>
             <a href="#" class="hover:underline">WRITING</a>
-            <a href="#" class="hover:underline">BOOKSHELF</a>
+            <a href="#shelf" class="hover:underline">BOOKSHELF</a>
         </nav>
-        <div class="w-8 h-8 border border-[#2d5a27] flex items-center justify-center">✳︎</div>
     </header>
 
     <section class="mb-16">
@@ -51,11 +53,6 @@
                         <p class="opacity-50 mb-2">//NOW//</p>
                         <p>- thinking deeply about social and storytelling at <span class="underline">Base</span></p>
                         <p>- building <span class="underline">Noun</span>, a coffee and wine bar in LA</p>
-                    </div>
-                    <div>
-                        <p class="opacity-50 mb-2">//PREVIOUSLY//</p>
-                        <p>- contributed to membership models of <span class="underline">FWB</span></p>
-                        <p>- fostered partnerships with <span class="underline">Gitcoin</span></p>
                     </div>
                 </div>
             </div>
@@ -91,14 +88,14 @@
                 <button class="px-3 py-1 border border-[#2d5a27]">★ Core Texts</button>
                 <button class="px-3 py-1 border border-[#2d5a27]">♥ Liked</button>
             </div>
-            <div class="text-[10px] opacity-50 font-bold">131 BOOKS</div>
+            <div class="text-[10px] opacity-50 font-bold uppercase">131 BOOKS</div>
         </div>
 
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
             <div class="aspect-[2/3] border border-[#e0eadd] shadow-sm overflow-hidden hover:-translate-y-1 transition-transform cursor-pointer">
                 <img src="Books/TheCosmicSerpent.jpg" alt="Book Cover" class="w-full h-full object-cover">
             </div>
-            </div>
+        </div>
     </section>
 
     <script src="Script.js"></script>
