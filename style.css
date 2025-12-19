@@ -1,5 +1,8 @@
 html {
     scroll-behavior: smooth;
+}
+
+body {
     background-color: #f8fcf8;
     color: #2d5a27;
     font-family: 'IBM Plex Mono', monospace;
@@ -12,29 +15,30 @@ html {
     width: 100%; 
 }
 
-/* Base line across the whole section */
-.tab-container {
-    border-bottom: 2px solid #2d5a2744; /* Light green line */
+/* This is the thin line that goes all the way across */
+.tabs-wrapper {
+    border-bottom: 2px solid #2d5a27;
     width: 100%;
 }
 
 .nav-tab { 
     cursor: pointer; 
-    padding-bottom: 8px; 
-    border-bottom: 5px solid transparent; 
-    transition: all 0.2s; 
+    padding-bottom: 12px; /* Space between text and underline */
+    border-bottom: 6px solid transparent; /* Thick but invisible by default */
+    transition: all 0.2s ease; 
     color: #2d5a27;
-    opacity: 0.4; 
+    opacity: 0.3; /* Faded when inactive like in your Pic 2 */
     text-transform: uppercase; 
     font-weight: bold; 
     font-size: 0.75rem; 
     letter-spacing: 0.1em;
-    margin-bottom: -2px; /* Pulls it down to sit on the container line */
+    margin-bottom: -2px; /* This makes it sit perfectly on the wrapper line */
 }
 
+/* This is the thick green bar for the active tab */
 .nav-tab-active { 
     opacity: 1; 
-    border-bottom: 5px solid #2d5a27; /* Thick dark green underline */
+    border-bottom: 6px solid #2d5a27; 
 }
 
 .hidden { 
