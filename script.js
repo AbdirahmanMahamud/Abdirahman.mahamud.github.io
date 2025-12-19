@@ -1,33 +1,84 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Tab Switching Logic
+    // --- 1. Element Selectors ---
     const tabs = document.querySelectorAll('.nav-tab');
     const grids = document.querySelectorAll('.shelf-content');
     const itemCount = document.getElementById('item-count');
+    const searchInput = document.getElementById('shelf-search');
+    const filterAllBtn = document.getElementById('filter-all');
+    const filterCoreBtn = document.getElementById('filter-core');
+    
+    let currentFilter = 'all'; // Tracks 'all' vs 'core'
 
+    // --- 2. The Master Filter Function ---
+    // This handles Tab, Search, and Core filtering all at once
+    function applyMasterFilter() {
+        const activeTab = document.querySelector('.nav-tab-active').getAttribute('data-shelf');
+        const searchTerm = searchInput.value.toLowerCase();
+        const allItems = document.querySelectorAll('.shelf-item');
+        
+        let visibleCount = 0;
+
+        allItems.forEach(item => {
+            const title = (item.getAttribute('data-title') || "").toLowerCase();
+            const desc = (item.getAttribute('data-description') || "").toLowerCase();
+            const isCore = item.querySelector('.absolute.top-2.right-2') !== null;
+            const isInActiveTab = item.closest(`#${activeTab}-grid`) !== null || item.closest('#writing-section') !== null;
+
+            // Logic: Must match search AND must match Core filter AND must be in active tab
+            const matchesSearch = title.includes(searchTerm) || desc.includes(searchTerm);
+            const matchesCore = (currentFilter === 'all') || (currentFilter === 'core' && isCore);
+
+            if (matchesSearch && matchesCore && isInActiveTab) {
+                item.style.display = 'block';
+                visibleCount++;
+            } else {
+                item.style.display = 'none';
+            }
+        });
+
+        // Update item count display (optional)
+        if (itemCount) {
+            const label = activeTab.toUpperCase();
+            itemCount.innerText = `${visibleCount} ${label}`;
+        }
+    }
+
+    // --- 3. Event Listeners ---
+
+    // Search Input Listener
+    searchInput.addEventListener('input', applyMasterFilter);
+
+    // Tab Switching
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
             tabs.forEach(t => t.classList.remove('nav-tab-active'));
             tab.classList.add('nav-tab-active');
-            grids.forEach(grid => grid.classList.add('hidden'));
             
+            // Show only the relevant grid container
             const target = tab.getAttribute('data-shelf');
-            const targetGrid = document.getElementById(`${target}-grid`);
-            if (targetGrid) targetGrid.classList.remove('hidden');
+            grids.forEach(grid => grid.classList.add('hidden'));
+            document.getElementById(`${target}-grid`).classList.remove('hidden');
 
-            const labels = {
-                'books': '131 BOOKS',
-                'movies': '42 MOVIES',
-                'travel': '12 LOCATIONS',
-                'essays': '6 ESSAYS'
-            };
-            itemCount.innerText = labels[target] || "";
-            
-            // Reset filters when switching tabs so all items in that category show up
-            applyFilter('all'); 
+            applyMasterFilter();
         });
     });
 
-    // 2. Modal (Pop-up) Logic
+    // Core/All Filter Buttons
+    filterAllBtn.addEventListener('click', () => {
+        currentFilter = 'all';
+        filterAllBtn.classList.add('bg-[#2d5a27]', 'text-white');
+        filterCoreBtn.classList.remove('bg-[#2d5a27]', 'text-white');
+        applyMasterFilter();
+    });
+
+    filterCoreBtn.addEventListener('click', () => {
+        currentFilter = 'core';
+        filterCoreBtn.classList.add('bg-[#2d5a27]', 'text-white');
+        filterAllBtn.classList.remove('bg-[#2d5a27]', 'text-white');
+        applyMasterFilter();
+    });
+
+    // --- 4. Modal (Pop-up) Logic ---
     const modal = document.getElementById('details-modal');
     const modalImg = document.getElementById('modal-img');
     const modalImgContainer = document.getElementById('modal-img-container');
@@ -51,7 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             modalTitle.innerText = title || "Untitled";
             modalDesc.innerText = desc || "No description available.";
-            
             modal.classList.remove('hidden');
             document.body.style.overflow = 'hidden'; 
         }
@@ -63,51 +113,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     closeBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
-    });
-    
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeModal();
-    });
-
-    // 3. Updated Filtering Logic (Fixed Core Selection)
-    const filterAllBtn = document.getElementById('filter-all');
-    const filterCoreBtn = document.getElementById('filter-core');
-
-    function applyFilter(filterType) {
-        const allItems = document.querySelectorAll('.shelf-item');
-        
-        allItems.forEach(item => {
-            // FIX: Check for the specific DIV that holds the symbol
-            const coreIndicator = item.querySelector('.absolute.top-2.right-2');
-            const isCore = coreIndicator !== null;
-
-            if (filterType === 'core') {
-                if (isCore) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            } else {
-                item.style.display = 'block';
-            }
-        });
-
-        // Update button UI states
-        if (filterType === 'core') {
-            filterCoreBtn.classList.add('bg-[#2d5a27]', 'text-white');
-            filterCoreBtn.classList.remove('border');
-            filterAllBtn.classList.remove('bg-[#2d5a27]', 'text-white');
-            filterAllBtn.classList.add('border', 'border-[#2d5a27]');
-        } else {
-            filterAllBtn.classList.add('bg-[#2d5a27]', 'text-white');
-            filterAllBtn.classList.remove('border');
-            filterCoreBtn.classList.remove('bg-[#2d5a27]', 'text-white');
-            filterCoreBtn.classList.add('border', 'border-[#2d5a27]');
-        }
-    }
-
-    if(filterAllBtn) filterAllBtn.addEventListener('click', () => applyFilter('all'));
-    if(filterCoreBtn) filterCoreBtn.addEventListener('click', () => applyFilter('core'));
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 });
