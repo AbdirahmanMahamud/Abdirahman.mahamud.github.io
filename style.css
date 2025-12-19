@@ -90,3 +90,14 @@ body {
 .shelf-content img:hover {
     opacity: 0.8;
 }
+/* Core Symbol Styling for Grid Items */
+.shelf-item .absolute {
+    pointer-events: none; /* Ensures the symbol doesn't block the click to open the modal */
+    user-select: none;
+}
+
+/* Optional: Subtle hover effect for the items with the symbol */
+.shelf-item:hover img {
+    filter: grayscale(20%);
+    transition: filter 0.3s ease;
+}
