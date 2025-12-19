@@ -12,24 +12,31 @@ html {
     width: 100%; 
 }
 
+/* Base line across the whole section */
+.tab-container {
+    border-bottom: 2px solid #2d5a2744; /* Light green line */
+    width: 100%;
+}
+
 .nav-tab { 
     cursor: pointer; 
     padding-bottom: 8px; 
-    border-bottom: 4px solid transparent; 
+    border-bottom: 5px solid transparent; 
     transition: all 0.2s; 
+    color: #2d5a27;
     opacity: 0.4; 
     text-transform: uppercase; 
     font-weight: bold; 
     font-size: 0.75rem; 
-    letter-spacing: 0.1em; 
+    letter-spacing: 0.1em;
+    margin-bottom: -2px; /* Pulls it down to sit on the container line */
 }
 
 .nav-tab-active { 
     opacity: 1; 
-    border-bottom: 4px solid #2d5a27; 
+    border-bottom: 5px solid #2d5a27; /* Thick dark green underline */
 }
 
-/* Crucial fix for stacking issue */
 .hidden { 
     display: none !important; 
 }
