@@ -1,5 +1,8 @@
 html {
     scroll-behavior: smooth;
+    background-color: #f8fcf8;
+    color: #2d5a27;
+    font-family: 'IBM Plex Mono', monospace;
 }
 
 .column-line { 
@@ -26,12 +29,11 @@ html {
     border-bottom: 4px solid #2d5a27; 
 }
 
-/* Strictly hide elements when hidden class is present */
+/* Crucial fix for stacking issue */
 .hidden { 
     display: none !important; 
 }
 
-/* Space for the header so anchors don't cut off text */
-.scroll-mt-20 {
-    scroll-margin-top: 5rem;
+.scroll-mt-24 {
+    scroll-margin-top: 6rem;
 }
